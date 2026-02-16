@@ -22,7 +22,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.vladan.holycodetask.R
 import com.vladan.holycodetask.feature.details.domain.model.VenueDetails
 
 @Composable
@@ -52,10 +54,10 @@ fun VenueDetailsContent(
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.weight(1f),
             )
-            if (venueDetails.rating != null) {
+            venueDetails.rating?.let { rating ->
                 AssistChip(
                     onClick = {},
-                    label = { Text("${venueDetails.rating}/10") },
+                    label = { Text("$rating/10") },
                 )
             }
         }
@@ -63,84 +65,78 @@ fun VenueDetailsContent(
         Spacer(modifier = Modifier.height(12.dp))
 
         // Category
-        if (venueDetails.categoryName != null) {
+        venueDetails.categoryName?.let { categoryName ->
             InfoRow(
                 icon = Icons.Default.Category,
-                label = "Category",
-                value = venueDetails.categoryName,
+                label = stringResource(R.string.category),
+                value = categoryName,
             )
         }
 
         // Address
-        if (venueDetails.formattedAddress != null) {
+        (venueDetails.formattedAddress ?: venueDetails.address)?.let { address ->
             InfoRow(
                 icon = Icons.Default.LocationOn,
-                label = "Address",
-                value = venueDetails.formattedAddress,
-            )
-        } else if (venueDetails.address != null) {
-            InfoRow(
-                icon = Icons.Default.LocationOn,
-                label = "Address",
-                value = venueDetails.address,
+                label = stringResource(R.string.address),
+                value = address,
             )
         }
 
         // Hours
-        if (venueDetails.hoursDisplay != null) {
+        venueDetails.hoursDisplay?.let { hoursDisplay ->
             InfoRow(
                 icon = Icons.Default.AccessTime,
-                label = if (venueDetails.openNow == true) "Hours (Open now)" else "Hours",
-                value = venueDetails.hoursDisplay,
+                label = if (venueDetails.openNow == true) stringResource(R.string.hours_open_now) else stringResource(R.string.hours),
+                value = hoursDisplay,
             )
         }
 
         // Phone
-        if (venueDetails.tel != null) {
+        venueDetails.tel?.let { tel ->
             InfoRow(
                 icon = Icons.Default.Phone,
-                label = "Phone",
-                value = venueDetails.tel,
+                label = stringResource(R.string.phone),
+                value = tel,
             )
         }
 
         // Website
-        if (venueDetails.website != null) {
+        venueDetails.website?.let { website ->
             InfoRow(
                 icon = Icons.Default.Public,
-                label = "Website",
-                value = venueDetails.website,
+                label = stringResource(R.string.website),
+                value = website,
             )
         }
 
         // Price
-        if (venueDetails.price != null) {
+        venueDetails.price?.let { price ->
             InfoRow(
                 icon = Icons.Default.AttachMoney,
-                label = "Price",
-                value = "$".repeat(venueDetails.price),
+                label = stringResource(R.string.price),
+                value = "$".repeat(price),
             )
         }
 
         // Rating
-        if (venueDetails.rating != null) {
+        venueDetails.rating?.let { rating ->
             InfoRow(
                 icon = Icons.Default.Star,
-                label = "Rating",
-                value = "${venueDetails.rating}/10",
+                label = stringResource(R.string.rating),
+                value = "$rating/10",
             )
         }
 
         // Description
-        if (venueDetails.description != null) {
+        venueDetails.description?.let { description ->
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "About",
+                text = stringResource(R.string.about),
                 style = MaterialTheme.typography.titleMedium,
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = venueDetails.description,
+                text = description,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -150,20 +146,20 @@ fun VenueDetailsContent(
         if (venueDetails.socialInstagram != null || venueDetails.socialTwitter != null) {
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Social Media",
+                text = stringResource(R.string.social_media),
                 style = MaterialTheme.typography.titleMedium,
             )
             Spacer(modifier = Modifier.height(4.dp))
-            if (venueDetails.socialInstagram != null) {
+            venueDetails.socialInstagram?.let { instagram ->
                 Text(
-                    text = "Instagram: @${venueDetails.socialInstagram}",
+                    text = "Instagram: @$instagram",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-            if (venueDetails.socialTwitter != null) {
+            venueDetails.socialTwitter?.let { twitter ->
                 Text(
-                    text = "Twitter: @${venueDetails.socialTwitter}",
+                    text = "Twitter: @$twitter",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )

@@ -18,9 +18,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.vladan.holycodetask.R
 import com.vladan.holycodetask.core.common.UiEvent
 import com.vladan.holycodetask.core.designsystem.EmptyScreen
 import com.vladan.holycodetask.core.designsystem.LoadingScreen
@@ -35,13 +37,13 @@ fun DetailsScreen(
     viewModel: DetailsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackBarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is UiEvent.ShowSnackbar -> {
-                    snackbarHostState.showSnackbar(event.message)
+                    snackBarHostState.showSnackbar(event.message)
                 }
             }
         }
@@ -52,7 +54,7 @@ fun DetailsScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = uiState.venueDetails?.name ?: "Details",
+                        text = uiState.venueDetails?.name ?: stringResource(R.string.details),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -67,7 +69,7 @@ fun DetailsScreen(
                 },
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { SnackbarHost(snackBarHostState) },
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -79,7 +81,7 @@ fun DetailsScreen(
             when {
                 uiState.isLoading && uiState.venueDetails == null -> LoadingScreen()
                 uiState.isError && uiState.venueDetails == null -> {
-                    EmptyScreen(message = "Failed to load venue details")
+                    EmptyScreen(message = stringResource(R.string.failed_to_load_venue_details))
                 }
                 uiState.venueDetails != null -> {
                     VenueDetailsContent(venueDetails = uiState.venueDetails!!)

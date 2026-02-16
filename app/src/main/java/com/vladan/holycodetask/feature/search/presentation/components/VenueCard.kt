@@ -42,16 +42,16 @@ fun VenueCard(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
-                if (venue.categoryName != null) {
+                venue.categoryName?.let { categoryName ->
                     Text(
-                        text = venue.categoryName,
+                        text = categoryName,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
-                if (venue.address != null) {
+                venue.address?.let { address ->
                     Text(
-                        text = venue.address,
+                        text = address,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
@@ -60,9 +60,9 @@ fun VenueCard(
                 }
             }
 
-            if (venue.distance != null) {
+            venue.distance?.let { distance ->
                 Text(
-                    text = formatDistance(venue.distance),
+                    text = formatDistance(distance),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.primary,
                 )

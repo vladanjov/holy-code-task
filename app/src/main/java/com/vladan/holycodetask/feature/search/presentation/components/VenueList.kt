@@ -22,11 +22,11 @@ fun VenueList(
     ) {
         items(
             items = venues,
-            key = { it.fsqId },
+            key = { it.fsqId }
         ) { venue ->
             VenueCard(
                 venue = venue,
-                onClick = { onVenueClick(venue.fsqId) },
+                onClick = { onVenueClick(venue.fsqId) }
             )
         }
     }

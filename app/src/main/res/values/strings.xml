@@ -2,4 +2,19 @@
     <string name="app_name">HolyCodeTask</string>
     <string name="no_venues_found_try_a_different_search">No venues found. Try a different search.</string>
     <string name="search_for_venues_near_you">Search for venues near you</string>
+    <string name="search_venues">Search venues...</string>
+    <string name="search">Search</string>
+    <string name="clear">Clear</string>
+    <string name="details">Details</string>
+    <string name="failed_to_load_venue_details">Failed to load venue details</string>
+    <string name="category">Category</string>
+    <string name="address">Address</string>
+    <string name="hours_open_now">Hours (Open now)</string>
+    <string name="hours">Hours</string>
+    <string name="phone">Phone</string>
+    <string name="website">Website</string>
+    <string name="price">Price</string>
+    <string name="rating">Rating</string>
+    <string name="about">About</string>
+    <string name="social_media">Social Media</string>
 </resources>
