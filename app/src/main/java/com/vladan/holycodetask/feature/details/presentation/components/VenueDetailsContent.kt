@@ -40,14 +40,7 @@ fun VenueDetailsContent(
             Spacer(modifier = Modifier.height(16.dp))
         }
 
-        // Name
-        Text(
-            text = venueDetails.name,
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = contentPadding.fillMaxWidth(),
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
         // Category
         venueDetails.categoryName?.let { categoryName ->
