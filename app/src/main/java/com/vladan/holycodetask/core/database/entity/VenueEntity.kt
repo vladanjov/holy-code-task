@@ -20,8 +20,6 @@ data class VenueEntity(
     val website: String?,
     val hoursDisplay: String?,
     val openNow: Boolean?,
-    val rating: Double?,
-    val price: Int?,
     val photosJson: String?,
     val socialFacebookId: String?,
     val socialInstagram: String?,

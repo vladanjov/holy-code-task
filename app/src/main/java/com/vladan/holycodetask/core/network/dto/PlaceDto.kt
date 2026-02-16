@@ -18,8 +18,6 @@ data class PlaceDto(
     @SerialName("hours") val hours: HoursDto? = null,
     @SerialName("photos") val photos: List<PhotoDto> = emptyList(),
     @SerialName("social_media") val socialMedia: SocialMediaDto? = null,
-    @SerialName("rating") val rating: Double? = null,
-    @SerialName("price") val price: Int? = null,
 )
 
 typealias PlaceDetailsDto = PlaceDto

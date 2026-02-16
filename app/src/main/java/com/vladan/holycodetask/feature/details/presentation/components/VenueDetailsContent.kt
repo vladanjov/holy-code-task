@@ -1,8 +1,6 @@
 package com.vladan.holycodetask.feature.details.presentation.components
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -11,13 +9,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Public
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,35 +27,25 @@ fun VenueDetailsContent(
     venueDetails: VenueDetails,
     modifier: Modifier = Modifier,
 ) {
+    val contentPadding = Modifier.padding(horizontal = 16.dp)
+
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp),
+            .verticalScroll(rememberScrollState()),
     ) {
-        // Photo carousel
+        // Photo carousel (edge-to-edge)
         if (venueDetails.photos.isNotEmpty()) {
             PhotoCarousel(photos = venueDetails.photos)
             Spacer(modifier = Modifier.height(16.dp))
         }
 
-        // Name and rating
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Text(
-                text = venueDetails.name,
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.weight(1f),
-            )
-            venueDetails.rating?.let { rating ->
-                AssistChip(
-                    onClick = {},
-                    label = { Text("$rating/10") },
-                )
-            }
-        }
+        // Name
+        Text(
+            text = venueDetails.name,
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = contentPadding.fillMaxWidth(),
+        )
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -70,6 +55,7 @@ fun VenueDetailsContent(
                 icon = Icons.Default.Category,
                 label = stringResource(R.string.category),
                 value = categoryName,
+                modifier = contentPadding,
             )
         }
 
@@ -79,6 +65,7 @@ fun VenueDetailsContent(
                 icon = Icons.Default.LocationOn,
                 label = stringResource(R.string.address),
                 value = address,
+                modifier = contentPadding,
             )
         }
 
@@ -88,6 +75,7 @@ fun VenueDetailsContent(
                 icon = Icons.Default.AccessTime,
                 label = if (venueDetails.openNow == true) stringResource(R.string.hours_open_now) else stringResource(R.string.hours),
                 value = hoursDisplay,
+                modifier = contentPadding,
             )
         }
 
@@ -97,6 +85,7 @@ fun VenueDetailsContent(
                 icon = Icons.Default.Phone,
                 label = stringResource(R.string.phone),
                 value = tel,
+                modifier = contentPadding,
             )
         }
 
@@ -106,24 +95,7 @@ fun VenueDetailsContent(
                 icon = Icons.Default.Public,
                 label = stringResource(R.string.website),
                 value = website,
-            )
-        }
-
-        // Price
-        venueDetails.price?.let { price ->
-            InfoRow(
-                icon = Icons.Default.AttachMoney,
-                label = stringResource(R.string.price),
-                value = "$".repeat(price),
-            )
-        }
-
-        // Rating
-        venueDetails.rating?.let { rating ->
-            InfoRow(
-                icon = Icons.Default.Star,
-                label = stringResource(R.string.rating),
-                value = "$rating/10",
+                modifier = contentPadding,
             )
         }
 
@@ -133,12 +105,14 @@ fun VenueDetailsContent(
             Text(
                 text = stringResource(R.string.about),
                 style = MaterialTheme.typography.titleMedium,
+                modifier = contentPadding,
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = description,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = contentPadding,
             )
         }
 
@@ -148,6 +122,7 @@ fun VenueDetailsContent(
             Text(
                 text = stringResource(R.string.social_media),
                 style = MaterialTheme.typography.titleMedium,
+                modifier = contentPadding,
             )
             Spacer(modifier = Modifier.height(4.dp))
             venueDetails.socialInstagram?.let { instagram ->
@@ -155,6 +130,7 @@ fun VenueDetailsContent(
                     text = "Instagram: @$instagram",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = contentPadding,
                 )
             }
             venueDetails.socialTwitter?.let { twitter ->
@@ -162,6 +138,7 @@ fun VenueDetailsContent(
                     text = "Twitter: @$twitter",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = contentPadding,
                 )
             }
         }

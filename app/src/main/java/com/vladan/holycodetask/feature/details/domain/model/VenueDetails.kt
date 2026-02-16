@@ -12,8 +12,6 @@ data class VenueDetails(
     val website: String?,
     val hoursDisplay: String?,
     val openNow: Boolean?,
-    val rating: Double?,
-    val price: Int?,
     val photos: List<String>,
     val latitude: Double?,
     val longitude: Double?,

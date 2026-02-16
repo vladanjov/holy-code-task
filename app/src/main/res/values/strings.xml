@@ -13,8 +13,6 @@
     <string name="hours">Hours</string>
     <string name="phone">Phone</string>
     <string name="website">Website</string>
-    <string name="price">Price</string>
-    <string name="rating">Rating</string>
     <string name="about">About</string>
     <string name="social_media">Social Media</string>
 </resources>
