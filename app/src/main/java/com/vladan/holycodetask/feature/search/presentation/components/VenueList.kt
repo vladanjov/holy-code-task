@@ -12,6 +12,7 @@ import com.vladan.holycodetask.feature.search.domain.model.Venue
 @Composable
 fun VenueList(
     venues: List<Venue>,
+    isOffline: Boolean,
     onVenueClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -26,6 +27,7 @@ fun VenueList(
         ) { venue ->
             VenueCard(
                 venue = venue,
+                showDistance = !isOffline,
                 onClick = { onVenueClick(venue.fsqId) }
             )
         }

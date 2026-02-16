@@ -85,6 +85,7 @@ fun SearchScreen(
                 else -> {
                     VenueList(
                         venues = uiState.venues,
+                        isOffline = isOffline,
                         onVenueClick = onVenueClick,
                     )
                 }

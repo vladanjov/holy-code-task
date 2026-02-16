@@ -20,6 +20,7 @@ fun VenueCard(
     venue: Venue,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    showDistance: Boolean = true,
 ) {
     Card(
         onClick = onClick,
@@ -60,12 +61,14 @@ fun VenueCard(
                 }
             }
 
-            venue.distance?.let { distance ->
-                Text(
-                    text = formatDistance(distance),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                )
+            if (showDistance) {
+                venue.distance?.let { distance ->
+                    Text(
+                        text = formatDistance(distance),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                }
             }
         }
     }
