@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
+    jacoco
 }
 
 android {
@@ -24,6 +25,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            enableUnitTestCoverage = true
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -92,10 +96,53 @@ dependencies {
     implementation(libs.compose.material.icons.extended)
 
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn("testDebugUnitTest")
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+
+    sourceDirectories.setFrom(files("src/main/java"))
+    classDirectories.setFrom(
+        fileTree("${layout.buildDirectory.get().asFile}/tmp/kotlin-classes/debug") {
+            exclude(
+                "**/R.class",
+                "**/R\$*.class",
+                "**/BuildConfig.*",
+                "**/Manifest*.*",
+                // Hilt generated
+                "**/Hilt_*.*",
+                "**/*_Factory.*",
+                "**/*_HiltModules*.*",
+                "**/*_MembersInjector.*",
+                "**/*_ComponentTreeDeps.*",
+                // Compose generated
+                "**/*ComposableSingletons*.*",
+                // Room generated
+                "**/*_Impl.*",
+                // Core package
+                "**/core/**",
+                // Presentation layer (screens, components, UI state) - keep ViewModels
+                "**/presentation/components/**",
+                "**/presentation/*Screen*.*",
+                "**/presentation/*UiState*.*"
+            )
+        }
+    )
+    executionData.setFrom(
+        files("${layout.buildDirectory.get().asFile}/outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec")
+    )
 }
