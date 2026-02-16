@@ -30,7 +30,6 @@ import com.vladan.holycodetask.feature.details.presentation.components.VenueDeta
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(
-    venueId: String,
     isOffline: Boolean,
     onBackClick: () -> Unit,
     viewModel: DetailsViewModel = hiltViewModel(),

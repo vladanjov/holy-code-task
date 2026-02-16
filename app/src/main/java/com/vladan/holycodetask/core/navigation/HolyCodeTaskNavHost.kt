@@ -5,7 +5,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
 import com.vladan.holycodetask.feature.details.presentation.DetailsScreen
 import com.vladan.holycodetask.feature.search.presentation.SearchScreen
 
@@ -29,9 +28,7 @@ fun HolyCodeTaskNavHost(
             )
         }
         composable<Route.Details> { backStackEntry ->
-            val route = backStackEntry.toRoute<Route.Details>()
             DetailsScreen(
-                venueId = route.venueId,
                 isOffline = isOffline,
                 onBackClick = { navController.popBackStack() },
             )
