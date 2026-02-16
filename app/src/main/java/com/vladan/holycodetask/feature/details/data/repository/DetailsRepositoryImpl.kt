@@ -34,7 +34,7 @@ class DetailsRepositoryImpl @Inject constructor(
 
         result.fold(
             onSuccess = { dto ->
-                val entity = dto.toEntity()
+                val entity = dto.toEntity().copy(distance = cached?.distance)
                 localDataSource.cacheVenue(entity)
                 emit(Resource.Success(entity.toVenueDetails()))
             },
