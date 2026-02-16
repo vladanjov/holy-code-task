@@ -35,7 +35,6 @@ class SearchVenuesWithUserLocationUseCaseTest {
             fsqId = "1",
             name = "Coffee Shop",
             categoryName = "Cafe",
-            categoryIconUrl = "https://example.com/icon.png",
             address = "123 Main St",
             distance = 150,
         ),

@@ -34,7 +34,6 @@ fun VenueEntity.toVenue(): Venue = Venue(
     fsqId = fsqId,
     name = name,
     categoryName = categoryName,
-    categoryIconUrl = categoryIconUrl,
     address = formattedAddress ?: address,
     distance = distance,
 )

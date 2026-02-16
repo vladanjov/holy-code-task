@@ -4,7 +4,6 @@ data class Venue(
     val fsqId: String,
     val name: String,
     val categoryName: String?,
-    val categoryIconUrl: String?,
     val address: String?,
     val distance: Int?,
 )

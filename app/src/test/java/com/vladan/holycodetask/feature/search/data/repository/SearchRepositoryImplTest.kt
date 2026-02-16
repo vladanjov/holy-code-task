@@ -278,7 +278,6 @@ class SearchRepositoryImplTest {
             assertEquals("42", venue.fsqId)
             assertEquals("My Cafe", venue.name)
             assertEquals("Cafe", venue.categoryName)
-            assertEquals("https://example.com/icon.png", venue.categoryIconUrl)
             assertEquals("123 Main St, Belgrade", venue.address)
             assertEquals(150, venue.distance)
 
