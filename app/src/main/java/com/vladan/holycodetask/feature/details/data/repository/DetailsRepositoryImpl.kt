@@ -10,7 +10,10 @@ import com.vladan.holycodetask.feature.details.data.remote.DetailsRemoteDataSour
 import com.vladan.holycodetask.feature.details.domain.model.VenueDetails
 import com.vladan.holycodetask.feature.details.domain.repository.DetailsRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.channelFlow
 import javax.inject.Inject
 
 class DetailsRepositoryImpl @Inject constructor(
@@ -18,31 +21,30 @@ class DetailsRepositoryImpl @Inject constructor(
     private val localDataSource: DetailsLocalDataSource,
 ) : DetailsRepository {
 
-    override fun getVenueDetails(fsqId: String): Flow<Resource<VenueDetails>> = flow {
-        emit(Resource.Loading)
+    override fun getVenueDetails(fsqId: String): Flow<Resource<VenueDetails>> = channelFlow {
+        send(Resource.Loading)
 
-        // Emit cached data first if available
-        val cached = localDataSource.getVenueById(fsqId)
-        if (cached != null) {
-            emit(Resource.Success(cached.toVenueDetails()))
+        // Network fetch in background
+        launch {
+            val result = runSuspendCatching {
+                remoteDataSource.getPlaceDetails(fsqId)
+            }
+            result.fold(
+                onSuccess = { dto ->
+                    val cached = localDataSource.getVenueById(fsqId)
+                    val entity = dto.toEntity().copy(distance = cached?.distance)
+                    localDataSource.cacheVenue(entity)
+                },
+                onFailure = { throwable ->
+                    send(Resource.Error(throwable.toAppError()))
+                },
+            )
         }
 
-        // Try to fetch fresh data from network
-        val result = runSuspendCatching {
-            remoteDataSource.getPlaceDetails(fsqId)
-        }
-
-        result.fold(
-            onSuccess = { dto ->
-                val entity = dto.toEntity().copy(distance = cached?.distance)
-                localDataSource.cacheVenue(entity)
-                emit(Resource.Success(entity.toVenueDetails()))
-            },
-            onFailure = { throwable ->
-                if (cached == null) {
-                    emit(Resource.Error(throwable.toAppError()))
-                }
-            },
-        )
+        // Room emits cached data immediately, then again when network writes new data
+        localDataSource.observeVenueById(fsqId)
+            .filterNotNull()
+            .map { entity -> Resource.Success(entity.toVenueDetails()) }
+            .collect { send(it) }
     }
 }

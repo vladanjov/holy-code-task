@@ -80,11 +80,11 @@ fun DetailsScreen(
 
             when {
                 uiState.isLoading && uiState.venueDetails == null -> LoadingScreen()
-                uiState.isError && uiState.venueDetails == null -> {
+                !uiState.isLoading && uiState.venueDetails == null -> {
                     EmptyScreen(message = stringResource(R.string.failed_to_load_venue_details))
                 }
-                uiState.venueDetails != null -> {
-                    VenueDetailsContent(venueDetails = uiState.venueDetails!!)
+                else -> {
+                    uiState.venueDetails?.let { venueDetails -> VenueDetailsContent(venueDetails = venueDetails) }
                 }
             }
         }

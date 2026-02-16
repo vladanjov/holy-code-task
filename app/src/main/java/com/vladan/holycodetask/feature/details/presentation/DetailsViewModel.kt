@@ -40,7 +40,7 @@ class DetailsViewModel @Inject constructor(
             getVenueDetailsUseCase(venueId).collect { resource ->
                 when (resource) {
                     is Resource.Loading -> {
-                        _uiState.update { it.copy(isLoading = true, isError = false) }
+                        _uiState.update { it.copy(isLoading = true) }
                     }
 
                     is Resource.Success -> {
@@ -48,13 +48,12 @@ class DetailsViewModel @Inject constructor(
                             it.copy(
                                 venueDetails = resource.data,
                                 isLoading = false,
-                                isError = false,
                             )
                         }
                     }
 
                     is Resource.Error -> {
-                        _uiState.update { it.copy(isLoading = false, isError = true) }
+                        _uiState.update { it.copy(isLoading = false) }
                         resource.error.toUiEvent()?.let {
                             _uiEvent.send(it)
                         }
