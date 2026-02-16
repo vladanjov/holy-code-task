@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">HolyCodeTask</string>
+    <string name="no_venues_found_try_a_different_search">No venues found. Try a different search.</string>
+    <string name="search_for_venues_near_you">Search for venues near you</string>
 </resources>

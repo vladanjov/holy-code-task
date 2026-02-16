@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -16,6 +19,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "FSQ_API_KEY", "\"${project.findProperty("FSQ_API_KEY") ?: ""}\"")
     }
 
     buildTypes {
@@ -33,6 +38,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -46,6 +52,45 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.hilt.navigation.compose)
+
+    // Retrofit + OkHttp
+    implementation(libs.retrofit)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
+
+    // Kotlin Serialization
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.retrofit.kotlinx.serialization)
+
+    // Room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+
+    // Coil
+    implementation(libs.coil.compose)
+
+    // Navigation
+    implementation(libs.navigation.compose)
+
+    // Play Services Location
+    implementation(libs.play.services.location)
+
+    // Accompanist Permissions
+    implementation(libs.accompanist.permissions)
+
+    // Lifecycle
+    implementation(libs.lifecycle.viewmodel.compose)
+    implementation(libs.lifecycle.runtime.compose)
+
+    // Material Icons Extended
+    implementation(libs.compose.material.icons.extended)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

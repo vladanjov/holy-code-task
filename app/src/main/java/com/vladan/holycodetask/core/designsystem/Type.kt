@@ -1,4 +1,4 @@
-package com.vladan.holycodetask.ui.theme
+package com.vladan.holycodetask.core.designsystem
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
