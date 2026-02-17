@@ -37,9 +37,9 @@ class SearchViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     val uiState: StateFlow<SearchUiState> = _query
-        .debounce(400)
+        .debounce(SEARCH_DEBOUNCE_MILLIS)
         .flatMapLatest { query ->
-            if (query.length < 2) {
+            if (query.length < MIN_QUERY_LENGTH) {
                 flowOf(SearchUiState())
             } else {
                 searchVenuesWithUserLocation(query).map { resource ->
@@ -73,5 +73,10 @@ class SearchViewModel @Inject constructor(
 
     fun onQueryChange(query: String) {
         _query.update { query }
+    }
+
+    companion object {
+        private const val SEARCH_DEBOUNCE_MILLIS = 400L
+        private const val MIN_QUERY_LENGTH = 2
     }
 }

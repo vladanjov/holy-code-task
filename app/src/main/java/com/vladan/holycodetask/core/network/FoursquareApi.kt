@@ -12,12 +12,17 @@ interface FoursquareApi {
     suspend fun searchPlaces(
         @Query("query") query: String,
         @Query("ll") latLng: String,
-        @Query("radius") radius: Int = 5000,
-        @Query("limit") limit: Int = 20,
+        @Query("radius") radius: Int = DEFAULT_SEARCH_RADIUS,
+        @Query("limit") limit: Int = DEFAULT_SEARCH_LIMIT,
     ): PlaceSearchResponse
 
     @GET("places/{fsq_place_id}")
     suspend fun getPlaceDetails(
         @Path("fsq_place_id") fsqPlaceId: String,
     ): PlaceDetailsDto
+
+    companion object {
+        const val DEFAULT_SEARCH_RADIUS = 5000
+        const val DEFAULT_SEARCH_LIMIT = 20
+    }
 }

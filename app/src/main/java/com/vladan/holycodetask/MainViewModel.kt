@@ -19,7 +19,11 @@ class MainViewModel @Inject constructor(
         .map { isOnline -> !isOnline }
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
+            started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),
             initialValue = false
         )
+
+    companion object {
+        private const val STOP_TIMEOUT_MILLIS = 5_000L
+    }
 }

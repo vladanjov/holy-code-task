@@ -43,7 +43,11 @@ class DetailsViewModel @Inject constructor(
         }
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
+            started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),
             initialValue = DetailsUiState(),
         )
+
+    companion object {
+        private const val STOP_TIMEOUT_MILLIS = 5_000L
+    }
 }

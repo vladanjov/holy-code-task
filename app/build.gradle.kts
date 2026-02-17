@@ -21,6 +21,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "FSQ_API_KEY", "\"${project.findProperty("FSQ_API_KEY") ?: ""}\"")
+        buildConfigField("String", "BASE_URL", "\"https://places-api.foursquare.com/\"")
     }
 
     buildTypes {
