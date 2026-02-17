@@ -1,31 +1,30 @@
 [versions]
-agp = "8.13.2"
-kotlin = "2.0.21"
+agp = "9.0.1"
+kotlin = "2.3.10"
 coreKtx = "1.17.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.10.0"
 activityCompose = "1.12.4"
-composeBom = "2024.09.00"
+composeBom = "2026.02.00"
 
-# New dependencies
-hilt = "2.54"
-ksp = "2.0.21-1.0.28"
-hiltNavigationCompose = "1.2.0"
-retrofit = "2.11.0"
-okhttp = "4.12.0"
-kotlinxSerialization = "1.7.3"
+hilt = "2.59.1"
+ksp = "2.3.5"
+hiltNavigationCompose = "1.3.0"
+retrofit = "3.0.0"
+okhttp = "5.3.2"
+kotlinxSerialization = "1.10.0"
 retrofitSerializationConverter = "1.0.0"
-room = "2.6.1"
+room = "2.8.4"
 coil = "2.7.0"
-navigationCompose = "2.8.5"
+navigationCompose = "2.9.7"
 playServicesLocation = "21.3.0"
-accompanistPermissions = "0.36.0"
+accompanistPermissions = "0.37.3"
 composeMaterialIcons = "1.7.8"
-mockk = "1.13.13"
-coroutinesTest = "1.9.0"
-turbine = "1.2.0"
+mockk = "1.14.9"
+coroutinesTest = "1.10.2"
+turbine = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -88,7 +87,6 @@ turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
