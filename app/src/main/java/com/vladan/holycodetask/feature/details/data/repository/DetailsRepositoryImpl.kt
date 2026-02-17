@@ -24,7 +24,6 @@ class DetailsRepositoryImpl @Inject constructor(
     override fun getVenueDetails(fsqId: String): Flow<Resource<VenueDetails>> = channelFlow {
         send(Resource.Loading)
 
-        // Network fetch in background
         launch {
             val result = runSuspendCatching {
                 remoteDataSource.getPlaceDetails(fsqId)

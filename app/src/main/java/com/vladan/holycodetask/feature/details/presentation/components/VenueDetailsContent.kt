@@ -41,7 +41,6 @@ fun VenueDetailsContent(
             .fillMaxWidth()
             .verticalScroll(rememberScrollState()),
     ) {
-        // Photo carousel (edge-to-edge)
         if (venueDetails.photos.isNotEmpty()) {
             PhotoCarousel(photos = venueDetails.photos)
             Spacer(modifier = Modifier.height(16.dp))
@@ -66,7 +65,6 @@ fun VenueDetailsContent(
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        // Category
         if (venueDetails.categoryName.isNotEmpty()) {
             InfoRow(
                 icon = Icons.Default.Category,
@@ -76,7 +74,6 @@ fun VenueDetailsContent(
             )
         }
 
-        // Address
         if (venueDetails.address.isNotEmpty()) {
             InfoRow(
                 icon = Icons.Default.LocationOn,
@@ -86,7 +83,6 @@ fun VenueDetailsContent(
             )
         }
 
-        // Hours
         if (venueDetails.hoursDisplay.isNotEmpty()) {
             InfoRow(
                 icon = Icons.Default.AccessTime,
@@ -96,7 +92,6 @@ fun VenueDetailsContent(
             )
         }
 
-        // Phone
         if (venueDetails.tel.isNotEmpty()) {
             InfoRow(
                 icon = Icons.Default.Phone,
@@ -106,7 +101,6 @@ fun VenueDetailsContent(
             )
         }
 
-        // Website
         if (venueDetails.website.isNotEmpty()) {
             InfoRow(
                 icon = Icons.Default.Public,
@@ -116,7 +110,6 @@ fun VenueDetailsContent(
             )
         }
 
-        // Description
         if (venueDetails.description.isNotEmpty()) {
             Spacer(modifier = Modifier.height(16.dp))
             Text(
@@ -133,7 +126,6 @@ fun VenueDetailsContent(
             )
         }
 
-        // Social media
         if (venueDetails.socialInstagram.isNotEmpty() || venueDetails.socialTwitter.isNotEmpty()) {
             Spacer(modifier = Modifier.height(16.dp))
             Text(
