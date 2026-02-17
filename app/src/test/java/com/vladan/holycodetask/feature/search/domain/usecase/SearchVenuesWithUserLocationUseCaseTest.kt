@@ -1,6 +1,7 @@
 package com.vladan.holycodetask.feature.search.domain.usecase
 
 import app.cash.turbine.test
+import com.vladan.holycodetask.core.common.AppError
 import com.vladan.holycodetask.core.common.GetUserLocationUseCase
 import com.vladan.holycodetask.core.common.Resource
 import com.vladan.holycodetask.feature.search.domain.model.Venue
