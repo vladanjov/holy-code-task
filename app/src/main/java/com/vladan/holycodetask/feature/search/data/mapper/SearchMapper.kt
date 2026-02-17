@@ -3,7 +3,6 @@ package com.vladan.holycodetask.feature.search.data.mapper
 import com.vladan.holycodetask.core.database.entity.VenueEntity
 import com.vladan.holycodetask.core.network.dto.PlaceDto
 import com.vladan.holycodetask.feature.search.domain.model.Venue
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 private val json = Json { ignoreUnknownKeys = true }
@@ -33,7 +32,7 @@ fun PlaceDto.toEntity(): VenueEntity = VenueEntity(
 fun VenueEntity.toVenue(): Venue = Venue(
     fsqId = fsqId,
     name = name,
-    categoryName = categoryName,
-    address = formattedAddress ?: address,
+    categoryName = categoryName.orEmpty(),
+    address = (formattedAddress ?: address).orEmpty(),
     distance = distance,
 )

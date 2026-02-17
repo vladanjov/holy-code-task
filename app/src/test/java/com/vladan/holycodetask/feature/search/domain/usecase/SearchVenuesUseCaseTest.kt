@@ -58,7 +58,7 @@ class SearchVenuesUseCaseTest {
                 fsqId = "2",
                 name = "Tea House",
                 categoryName = "Tea Room",
-                address = null,
+                address = "",
                 distance = 300,
             ),
         )

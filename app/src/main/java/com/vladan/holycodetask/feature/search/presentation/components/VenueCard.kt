@@ -43,16 +43,16 @@ fun VenueCard(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
-                venue.categoryName?.let { categoryName ->
+                if (venue.categoryName.isNotEmpty()) {
                     Text(
-                        text = categoryName,
+                        text = venue.categoryName,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
-                venue.address?.let { address ->
+                if (venue.address.isNotEmpty()) {
                     Text(
-                        text = address,
+                        text = venue.address,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,

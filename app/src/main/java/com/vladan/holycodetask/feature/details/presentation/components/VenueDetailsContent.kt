@@ -43,57 +43,57 @@ fun VenueDetailsContent(
         Spacer(modifier = Modifier.height(4.dp))
 
         // Category
-        venueDetails.categoryName?.let { categoryName ->
+        if (venueDetails.categoryName.isNotEmpty()) {
             InfoRow(
                 icon = Icons.Default.Category,
                 label = stringResource(R.string.category),
-                value = categoryName,
+                value = venueDetails.categoryName,
                 modifier = contentPadding,
             )
         }
 
         // Address
-        (venueDetails.formattedAddress ?: venueDetails.address)?.let { address ->
+        if (venueDetails.address.isNotEmpty()) {
             InfoRow(
                 icon = Icons.Default.LocationOn,
                 label = stringResource(R.string.address),
-                value = address,
+                value = venueDetails.address,
                 modifier = contentPadding,
             )
         }
 
         // Hours
-        venueDetails.hoursDisplay?.let { hoursDisplay ->
+        if (venueDetails.hoursDisplay.isNotEmpty()) {
             InfoRow(
                 icon = Icons.Default.AccessTime,
                 label = if (venueDetails.openNow == true) stringResource(R.string.hours_open_now) else stringResource(R.string.hours),
-                value = hoursDisplay,
+                value = venueDetails.hoursDisplay,
                 modifier = contentPadding,
             )
         }
 
         // Phone
-        venueDetails.tel?.let { tel ->
+        if (venueDetails.tel.isNotEmpty()) {
             InfoRow(
                 icon = Icons.Default.Phone,
                 label = stringResource(R.string.phone),
-                value = tel,
+                value = venueDetails.tel,
                 modifier = contentPadding,
             )
         }
 
         // Website
-        venueDetails.website?.let { website ->
+        if (venueDetails.website.isNotEmpty()) {
             InfoRow(
                 icon = Icons.Default.Public,
                 label = stringResource(R.string.website),
-                value = website,
+                value = venueDetails.website,
                 modifier = contentPadding,
             )
         }
 
         // Description
-        venueDetails.description?.let { description ->
+        if (venueDetails.description.isNotEmpty()) {
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = stringResource(R.string.about),
@@ -102,7 +102,7 @@ fun VenueDetailsContent(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = description,
+                text = venueDetails.description,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = contentPadding,
@@ -110,7 +110,7 @@ fun VenueDetailsContent(
         }
 
         // Social media
-        if (venueDetails.socialInstagram != null || venueDetails.socialTwitter != null) {
+        if (venueDetails.socialInstagram.isNotEmpty() || venueDetails.socialTwitter.isNotEmpty()) {
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = stringResource(R.string.social_media),
@@ -118,17 +118,17 @@ fun VenueDetailsContent(
                 modifier = contentPadding,
             )
             Spacer(modifier = Modifier.height(4.dp))
-            venueDetails.socialInstagram?.let { instagram ->
+            if (venueDetails.socialInstagram.isNotEmpty()) {
                 Text(
-                    text = "Instagram: @$instagram",
+                    text = "Instagram: @${venueDetails.socialInstagram}",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = contentPadding,
                 )
             }
-            venueDetails.socialTwitter?.let { twitter ->
+            if (venueDetails.socialTwitter.isNotEmpty()) {
                 Text(
-                    text = "Twitter: @$twitter",
+                    text = "Twitter: @${venueDetails.socialTwitter}",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = contentPadding,
