@@ -8,12 +8,7 @@ class GetUserLocationUseCase @Inject constructor(
     suspend operator fun invoke(): String {
         val (lat, lng) = runSuspendCatching { locationProvider.getCurrentLocation() }
             .getOrNull()
-            ?: Pair(DEFAULT_LAT, DEFAULT_LNG)
+            ?: Pair(AppConfig.DEFAULT_LAT, AppConfig.DEFAULT_LNG)
         return "$lat,$lng"
-    }
-
-    companion object {
-        private const val DEFAULT_LAT = 44.8176
-        private const val DEFAULT_LNG = 20.4633
     }
 }
