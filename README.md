@@ -106,6 +106,28 @@ Errors flow through a typed pipeline:
 - `NetworkError` produces `null` — the offline banner is sufficient, no redundant snackbar
 - Other errors produce `ShowSnackbar` events sent through a `Channel` for one-time consumption
 
+### Clean Use Cases (Single Responsibility)
+
+Each use case is a single-purpose callable class with `operator fun invoke()`. `SearchVenuesUseCase` and `GetVenueDetailsUseCase` are pure delegation — they forward a call to the repository and return the `Flow`. `GetUserLocationUseCase` only resolves the device location (with a silent fallback to default coordinates). No use case mixes concerns or holds state.
+
+### Use Case Composition (SearchVenuesWithUserLocationUseCase)
+
+`SearchVenuesWithUserLocationUseCase` composes two smaller use cases instead of doing everything itself. Inside a `flow {}` builder it first suspends to get the user location, then delegates to `SearchVenuesUseCase` with `emitAll`. The ViewModel only passes a query string — it never knows that location resolution is involved. This keeps orchestration in the domain layer and the ViewModel thin.
+
+### Normalized Cache with Reference Table
+
+The local database stores venue data in a single `venues` table keyed by `fsqId` (Foursquare Place ID). Search results are not duplicated — a separate `search_results` junction table stores only `(query, fsqId, position)`. A venue that appears in multiple searches ("coffee", "cafe") is stored once in `venues`; each query just adds lightweight reference rows. The join query reconstructs the ordered result list. The entire cache write (upsert venues → delete stale mappings → insert new mappings) runs inside `withTransaction` so the UI never observes a partial state.
+
+### Distance Preservation Across Data Sources
+
+The search endpoint returns `distance` for each venue, but the details endpoint does not. When `DetailsRepositoryImpl` writes fresh details to Room, it first reads the existing cached venue and copies the `distance` value into the new entity before upserting. This prevents the details fetch from overwriting search-provided data with `null`.
+
+### StateFlow Sharing Strategies (Lazily vs WhileSubscribed)
+
+Both ViewModels use declarative `stateIn` to expose UI state, but with different sharing strategies:
+- **SearchViewModel** uses `SharingStarted.Lazily` — the search flow chain (`debounce` → `flatMapLatest` → `map`) starts only on first subscription and stays active for the ViewModel's lifetime. This makes sense because the search screen is the entry point and remains alive throughout the session.
+- **DetailsViewModel** uses `SharingStarted.WhileSubscribed(5000)` — the upstream (Room observer + API fetch) stops 5 seconds after the last subscriber disappears. When the user leaves the details screen, resources are released. If they return quickly (e.g. configuration change), the last cached value is replayed without a new API call.
+
 ### Coroutine Safety
 
 `runSuspendCatching` is used instead of `runCatching` to properly propagate `CancellationException`, preserving structured concurrency guarantees.
