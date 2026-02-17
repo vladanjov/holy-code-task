@@ -8,19 +8,6 @@ import kotlinx.serialization.json.Json
 
 private val json = Json { ignoreUnknownKeys = true }
 
-private const val MOCK_DESCRIPTION =
-    "A popular local spot known for its welcoming atmosphere and great service. " +
-        "Whether you're visiting for the first time or you're a regular, " +
-        "there's always something to enjoy here."
-
-private const val MOCK_HOURS_DISPLAY = "Mon-Fri 9:00 AM - 10:00 PM, Sat-Sun 10:00 AM - 11:00 PM"
-
-private val MOCK_PHOTO_URLS = listOf(
-    "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D",
-    "https://archisphere.at/wp-content/uploads/2023/06/vienna-restaurant-interior-design-with-integrated-shelves-by-archisphere-in-vienna-photo-copyright-christof-wagner-1024x768.jpg",
-    "https://res.cloudinary.com/nmg-prod/image/upload/f_auto/q_auto:good/v1723234528/bg_content/Landing%20Pages/Restaurants%20-%20cat652611/Restaurants-LP_01-Restaurant_080924.jpg",
-)
-
 fun PlaceDetailsDto.toEntity(): VenueEntity = VenueEntity(
     fsqId = fsqPlaceId,
     name = name,
@@ -58,12 +45,12 @@ fun VenueEntity.toVenueDetails(): VenueDetails {
         categoryName = categoryName.orEmpty(),
         categoryIconUrl = categoryIconUrl.orEmpty(),
         address = (formattedAddress ?: address).orEmpty(),
-        description = description ?: MOCK_DESCRIPTION,
+        description = description.orEmpty(),
         tel = tel.orEmpty(),
         website = website.orEmpty(),
-        hoursDisplay = hoursDisplay ?: MOCK_HOURS_DISPLAY,
+        hoursDisplay = hoursDisplay.orEmpty(),
         openNow = openNow,
-        photos = photoUrls.ifEmpty { MOCK_PHOTO_URLS },
+        photos = photoUrls,
         latitude = latitude,
         longitude = longitude,
         socialInstagram = socialInstagram.orEmpty(),

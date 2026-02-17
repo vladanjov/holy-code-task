@@ -11,8 +11,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,15 +29,15 @@ class DetailsViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     val uiState: StateFlow<DetailsUiState> = getVenueDetailsUseCase(venueId)
-        .map { resource ->
+        .scan(DetailsUiState()) { currentState, resource ->
             when (resource) {
-                is Resource.Loading -> DetailsUiState(isLoading = true)
+                is Resource.Loading -> currentState.copy(isLoading = true)
                 is Resource.Success -> DetailsUiState(venueDetails = resource.data)
                 is Resource.Error -> {
                     resource.error.toUiEvent()?.let {
                         viewModelScope.launch { _uiEvent.send(it) }
                     }
-                    DetailsUiState()
+                    currentState.copy(isLoading = false)
                 }
             }
         }
