@@ -1,6 +1,8 @@
 package com.vladan.holycodetask.feature.search.data.local
 
+import androidx.room.withTransaction
 import com.vladan.holycodetask.core.common.runSuspendCatching
+import com.vladan.holycodetask.core.database.HolyCodeTaskDatabase
 import com.vladan.holycodetask.core.database.dao.SearchResultDao
 import com.vladan.holycodetask.core.database.dao.VenueDao
 import com.vladan.holycodetask.core.database.entity.VenueEntity
@@ -9,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class SearchLocalDataSource @Inject constructor(
+    private val database: HolyCodeTaskDatabase,
     private val venueDao: VenueDao,
     private val searchResultDao: SearchResultDao,
 ) {
@@ -23,15 +26,17 @@ class SearchLocalDataSource @Inject constructor(
     }
 
     suspend fun cacheSearchResults(query: String, venues: List<VenueEntity>) {
-        venueDao.insertVenues(venues)
-        searchResultDao.deleteSearchResults(query)
-        val searchResults = venues.mapIndexed { index, venue ->
-            VenueSearchResultEntity(
-                query = query,
-                fsqId = venue.fsqId,
-                position = index
-            )
+        database.withTransaction {
+            venueDao.insertVenues(venues)
+            searchResultDao.deleteSearchResults(query)
+            val searchResults = venues.mapIndexed { index, venue ->
+                VenueSearchResultEntity(
+                    query = query,
+                    fsqId = venue.fsqId,
+                    position = index
+                )
+            }
+            searchResultDao.insertSearchResults(searchResults)
         }
-        searchResultDao.insertSearchResults(searchResults)
     }
 }

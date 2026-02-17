@@ -6,7 +6,8 @@ class GetUserLocationUseCase @Inject constructor(
     private val locationProvider: LocationProvider,
 ) {
     suspend operator fun invoke(): String {
-        val (lat, lng) = locationProvider.getCurrentLocation()
+        val (lat, lng) = runSuspendCatching { locationProvider.getCurrentLocation() }
+            .getOrNull()
             ?: Pair(DEFAULT_LAT, DEFAULT_LNG)
         return "$lat,$lng"
     }

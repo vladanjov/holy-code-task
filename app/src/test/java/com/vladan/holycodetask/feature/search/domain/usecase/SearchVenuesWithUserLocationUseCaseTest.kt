@@ -1,7 +1,6 @@
 package com.vladan.holycodetask.feature.search.domain.usecase
 
 import app.cash.turbine.test
-import com.vladan.holycodetask.core.common.AppError
 import com.vladan.holycodetask.core.common.GetUserLocationUseCase
 import com.vladan.holycodetask.core.common.Resource
 import com.vladan.holycodetask.feature.search.domain.model.Venue
@@ -121,16 +120,23 @@ class SearchVenuesWithUserLocationUseCaseTest {
     }
 
     @Test
-    fun `invoke propagates exception when getUserLocation throws`() = runTest {
-        // Given
-        coEvery { getUserLocationUseCase() } throws SecurityException("Permission denied")
+    fun `invoke uses location from getUserLocation even if it returns default`() = runTest {
+        // Given - getUserLocation returns default coords (e.g. when location failed internally)
+        coEvery { getUserLocationUseCase() } returns "44.8176,20.4633"
+        every { searchVenuesUseCase("coffee", "44.8176,20.4633") } returns flowOf(
+            Resource.Loading,
+            Resource.Success(testVenues),
+        )
 
         // When & Then
-        try {
-            useCase("coffee")
-            assertTrue("Should have thrown", false)
-        } catch (e: SecurityException) {
-            assertEquals("Permission denied", e.message)
+        useCase("coffee").test {
+            assertTrue(awaitItem() is Resource.Loading)
+
+            val success = awaitItem()
+            assertTrue(success is Resource.Success)
+            assertEquals(testVenues, (success as Resource.Success).data)
+
+            awaitComplete()
         }
     }
 }
