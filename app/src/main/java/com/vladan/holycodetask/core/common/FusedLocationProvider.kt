@@ -17,6 +17,7 @@ class FusedLocationProvider @Inject constructor(
 ) : LocationProvider {
 
     private val fusedClient = LocationServices.getFusedLocationProviderClient(context)
+    @Volatile
     private var cachedLocation: Pair<Double, Double>? = null
 
     @SuppressLint("MissingPermission")
@@ -25,17 +26,16 @@ class FusedLocationProvider @Inject constructor(
 
         return suspendCancellableCoroutine { cont ->
             val cts = CancellationTokenSource()
-            cont.invokeOnCancellation { cts.cancel() }
 
             fusedClient.getCurrentLocation(Priority.PRIORITY_BALANCED_POWER_ACCURACY, cts.token)
                 .addOnSuccessListener { location ->
                     val result = location?.let {
                         Pair(it.latitude, it.longitude).also { pair -> cachedLocation = pair }
                     }
-                    cont.resume(result)
+                    if (cont.isActive) cont.resume(result)
                 }
                 .addOnFailureListener {
-                    cont.resume(null)
+                    if (cont.isActive) cont.resume(null)
                 }
         }
     }
