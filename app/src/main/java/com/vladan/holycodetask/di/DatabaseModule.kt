@@ -20,10 +20,10 @@ object DatabaseModule {
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): HolyCodeTaskDatabase =
         Room.databaseBuilder(
-            context,
-            HolyCodeTaskDatabase::class.java,
-            "holycodetask.db",
-        ).build()
+                context,
+                HolyCodeTaskDatabase::class.java,
+                "holycodetask.db",
+            ).fallbackToDestructiveMigration(false).build()
 
     @Provides
     fun provideVenueDao(database: HolyCodeTaskDatabase): VenueDao = database.venueDao()

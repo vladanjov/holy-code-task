@@ -9,7 +9,7 @@ import com.vladan.holycodetask.core.database.entity.VenueSearchResultEntity
 
 @Database(
     entities = [VenueEntity::class, VenueSearchResultEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false,
 )
 abstract class HolyCodeTaskDatabase : RoomDatabase() {
