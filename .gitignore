@@ -143,6 +143,9 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 
+# ===== Claude =====
+.claude/settings.local.json
+
 # ===== Misc =====
 
 # Environment files
